@@ -1,5 +1,7 @@
-import { Body, Controller, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, ParseBoolPipe, ParseIntPipe, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreatePropertyDto } from './dto/createProperty.dto';
+import { HeaderDTO } from './dto/header.dto';
+import { RequestHeader } from './pipes/request-header';
 
 @Controller('property')
 export class PropertyController {
@@ -20,7 +22,12 @@ export class PropertyController {
         whitelist: true,
         forbidNonWhitelisted: true
     }))
-    create(@Body() body: CreatePropertyDto) {
-        return `This action creates a new property with data: ${body}`;
+    create(
+        @Body() body: CreatePropertyDto,
+
+        // Example of using headers
+        @RequestHeader(HeaderDTO) headers:HeaderDTO,
+    ) {
+        return headers
     }
 }
